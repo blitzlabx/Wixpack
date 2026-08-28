@@ -20,13 +20,16 @@ using Wixpack.Floket.DependencyInjection;
 using Wixpack.Games.DependencyInjection;
 using Wixpack.Telegram.DependencyInjection;
 
+// Render free tier often hits the inotify watch limit (128). Disable config file watching.
+Environment.SetEnvironmentVariable("DOTNET_HOSTBUILDER_RELOADCONFIGONCHANGE", "false");
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configPath = Path.Combine(AppContext.BaseDirectory, "config", "settings.json");
 if (!File.Exists(configPath))
     configPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "config", "settings.json"));
 if (File.Exists(configPath))
-    builder.Configuration.AddJsonFile(configPath, optional: true, reloadOnChange: true);
+    builder.Configuration.AddJsonFile(configPath, optional: true, reloadOnChange: false);
 builder.Configuration.AddEnvironmentVariables(prefix: "WIXPACK_");
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5080";

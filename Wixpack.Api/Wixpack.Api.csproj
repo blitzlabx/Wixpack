@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.19" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Wixpack.Core\Wixpack.Core.csproj" />
+    <ProjectReference Include="..\Wixpack.Telegram\Wixpack.Telegram.csproj" />
+    <ProjectReference Include="..\Wixpack.Floket\Wixpack.Floket.csproj" />
+    <ProjectReference Include="..\Wixpack.Games\Wixpack.Games.csproj" />
+    <ProjectReference Include="..\Wixpack.Downloader\Wixpack.Downloader.csproj" />
+    <ProjectReference Include="..\Wixpack.DevTools\Wixpack.DevTools.csproj" />
+    <ProjectReference Include="..\Wixpack.Experimental\Wixpack.Experimental.csproj" />
+  </ItemGroup>
+
+</Project>

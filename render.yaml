@@ -1,0 +1,25 @@
+# Render Blueprint — Wixpack by Blitz
+# Creator: Blitz · @blitzlabx
+#
+# After deploy, set keep-alive cron to:
+#   GET https://YOUR-SERVICE.onrender.com/health
+# every 5–10 minutes (Render Cron Job or UptimeRobot / cron-job.org).
+
+services:
+  - type: web
+    name: wixpack
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: WIXPACK_Telegram__BotToken
+        sync: false
+      - key: WIXPACK_Telegram__EnablePolling
+        value: "true"
+      - key: WIXPACK_Logging__MinimumLevel
+        value: Information

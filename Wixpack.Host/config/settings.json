@@ -1,0 +1,32 @@
+{
+  "LogoUrl": "https://u.pone.rs/wpkliixf.jpg",
+  "DonationUrl": "https://flutterwave.com/donate/knjcdfjgzwyt",
+  "Telegram": {
+    "BotToken": "8696102633:AAE3XIcjISQi2WFF-JZ__OOjm-wn7bTuZwU",
+    "EnablePolling": true,
+    "AdminUserIds": [
+      "8656909561"
+    ],
+    "DefaultLanguage": "en"
+  },
+  "Floket": {
+    "VerificationTimeoutSeconds": 120,
+    "MaxAttempts": 3,
+    "RestrictUntilVerified": true,
+    "EnabledByDefault": true
+  },
+  "Downloader": {
+    "OutputDirectory": "downloads",
+    "YtDlpPath": null,
+    "FFmpegPath": null
+  },
+  "Api": {
+    "Host": "http://localhost:5080",
+    "RequireApiKey": false,
+    "ApiKey": ""
+  },
+  "Logging": {
+    "MinimumLevel": "Information",
+    "LogDirectory": "logs"
+  }
+}

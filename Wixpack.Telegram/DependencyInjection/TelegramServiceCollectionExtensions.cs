@@ -27,6 +27,7 @@ public static class TelegramServiceCollectionExtensions
         services.AddSingleton<ICommandHandler, StartCommand>();
         services.AddSingleton<ICommandHandler, HelpCommand>();
         services.AddSingleton<ICommandHandler, GameCommand>();
+        services.AddSingleton<ICommandHandler, DlCommand>();
 
         services.AddSingleton<FloketGroupHandler>();
         services.AddSingleton<CallbackQueryHandler>();

@@ -14,9 +14,12 @@ public sealed class HelpCommand : ICommandHandler
     {
         var text =
             $"<b>{WixpackBranding.FullProductName}</b> commands\n\n" +
-            "/start — Open Wixpack main menu\n" +
-            "/help — Show available commands\n\n" +
-            "More commands arrive as modules load.\n" +
+            "/start — Open main menu\n" +
+            "/help — This list\n" +
+            "/game — List games\n" +
+            "/game rps — Start Rock Paper Scissors\n" +
+            "/dl &lt;url&gt; — Download media from a link\n\n" +
+            "In private chat you can also send a URL alone.\n" +
             $"@{WixpackBranding.SocialHandle}";
 
         await bot.SendMessage(

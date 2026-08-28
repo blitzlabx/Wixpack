@@ -30,6 +30,54 @@ public static class WixpackKeyboards
         ]);
     }
 
+    public static InlineKeyboardMarkup GamesMenu()
+    {
+        return new InlineKeyboardMarkup([
+            [
+                ButtonStyles.Callback("🪨📄✂ Rock Paper Scissors", "game:start:rps", ButtonStyles.Success)
+            ],
+            [
+                ButtonStyles.Callback("« Back", "menu:main", ButtonStyles.Primary)
+            ]
+        ]);
+    }
+
+    public static InlineKeyboardMarkup DownloaderMenu()
+    {
+        return new InlineKeyboardMarkup([
+            [
+                ButtonStyles.Callback("« Back", "menu:main", ButtonStyles.Primary)
+            ]
+        ]);
+    }
+
+    public static InlineKeyboardMarkup DevToolsMenu()
+    {
+        return new InlineKeyboardMarkup([
+            [
+                ButtonStyles.Callback("🆔 New UUID", "tool:uuid", ButtonStyles.Primary),
+                ButtonStyles.Callback("⏱ Timestamp", "tool:timestamp", ButtonStyles.Primary)
+            ],
+            [
+                ButtonStyles.Callback("🎲 Coin flip", "tool:coinflip", ButtonStyles.Success)
+            ],
+            [
+                ButtonStyles.Callback("« Back", "menu:main", ButtonStyles.Primary)
+            ]
+        ]);
+    }
+
+    public static InlineKeyboardMarkup SettingsMenu(string? donationUrl)
+    {
+        var rows = new List<InlineKeyboardButton[]>();
+        if (!string.IsNullOrWhiteSpace(donationUrl) && Uri.TryCreate(donationUrl, UriKind.Absolute, out _))
+        {
+            rows.Add([ButtonStyles.Url("💚 Donate", donationUrl, ButtonStyles.Success)]);
+        }
+        rows.Add([ButtonStyles.Callback("« Back", "menu:main", ButtonStyles.Primary)]);
+        return new InlineKeyboardMarkup(rows);
+    }
+
     public static InlineKeyboardMarkup ConfirmCancel(string confirmCallback, string cancelCallback = "menu:close")
     {
         return new InlineKeyboardMarkup([
@@ -37,6 +85,13 @@ public static class WixpackKeyboards
                 ButtonStyles.Callback("✅ Confirm", confirmCallback, ButtonStyles.Success),
                 ButtonStyles.Callback("❌ Cancel", cancelCallback, ButtonStyles.Danger)
             ]
+        ]);
+    }
+
+    public static InlineKeyboardMarkup BackOnly()
+    {
+        return new InlineKeyboardMarkup([
+            [ButtonStyles.Callback("« Back", "menu:main", ButtonStyles.Primary)]
         ]);
     }
 

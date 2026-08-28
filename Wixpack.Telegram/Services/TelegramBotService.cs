@@ -106,9 +106,23 @@ public sealed class TelegramBotService : BackgroundService
                 return;
             }
 
-            if (update.Message is { Text: { } text } message && text.StartsWith('/'))
+            if (update.Message is { Text: { } text } message)
             {
-                await HandleCommandAsync(bot, message, text, ct);
+                if (text.StartsWith('/'))
+                {
+                    await HandleCommandAsync(bot, message, text, ct);
+                    return;
+                }
+
+                // Private chat: bare URL → treat as /dl
+                if (message.Chat.Type == ChatType.Private
+                    && Uri.TryCreate(text.Trim(), UriKind.Absolute, out var uri)
+                    && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+                {
+                    var dl = _commands.FirstOrDefault(c => c.Command == "dl");
+                    if (dl is not null)
+                        await dl.HandleAsync(bot, message, text.Trim(), ct);
+                }
             }
         }
         catch (Exception ex)

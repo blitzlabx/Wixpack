@@ -1,6 +1,5 @@
 namespace Wixpack.Experimental.Features;
 
-/// <summary>Isolated experimental feature — safe to remove.</summary>
 public sealed class CoinFlipFeature
 {
     public string Name => "coin-flip";

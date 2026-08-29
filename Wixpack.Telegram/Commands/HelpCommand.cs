@@ -13,19 +13,14 @@ public sealed class HelpCommand : ICommandHandler
     public async Task HandleAsync(ITelegramBotClient bot, Message message, string? args, CancellationToken ct)
     {
         var text =
-            $"<b>{WixpackBranding.FullProductName}</b> commands\n\n" +
-            "/start — Open main menu\n" +
+            $"<b>{WixpackBranding.FullProductName}</b>\n\n" +
+            "/start — Main menu\n" +
             "/help — This list\n" +
             "/game — List games\n" +
-            "/game rps — Start Rock Paper Scissors\n" +
-            "/dl &lt;url&gt; — Download media from a link\n\n" +
-            "In private chat you can also send a URL alone.\n" +
+            "/game rps|guess|dice — Start a game\n" +
+            "/dl &lt;url&gt; — Download media\n\n" +
             $"@{WixpackBranding.SocialHandle}";
 
-        await bot.SendMessage(
-            chatId: message.Chat.Id,
-            text: text,
-            parseMode: ParseMode.Html,
-            cancellationToken: ct);
+        await bot.SendMessage(message.Chat.Id, text, parseMode: ParseMode.Html, cancellationToken: ct);
     }
 }

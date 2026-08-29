@@ -1,17 +1,11 @@
 namespace Wixpack.Core.Configuration;
 
-/// <summary>
-/// Root application settings bound from settings.json.
-/// LogoUrl and DonationUrl are intentionally left empty for the owner to fill.
-/// </summary>
 public sealed class WixpackSettings
 {
     public const string SectionName = "Wixpack";
 
-    /// <summary>URL of the Wixpack logo. Leave empty until set by owner.</summary>
     public string LogoUrl { get; set; } = "";
 
-    /// <summary>Donation / support URL. Leave empty until set by owner.</summary>
     public string DonationUrl { get; set; } = "";
 
     public TelegramSettings Telegram { get; set; } = new();
@@ -23,7 +17,6 @@ public sealed class WixpackSettings
 
 public sealed class TelegramSettings
 {
-    /// <summary>Bot token from @BotFather. Prefer environment variable or secret store in production.</summary>
     public string BotToken { get; set; } = "";
 
     public bool EnablePolling { get; set; } = true;
@@ -33,16 +26,12 @@ public sealed class TelegramSettings
 
 public sealed class FloketSettings
 {
-    /// <summary>Default verification timeout in seconds.</summary>
     public int VerificationTimeoutSeconds { get; set; } = 120;
 
-    /// <summary>Maximum failed attempts before kick/ban action.</summary>
     public int MaxAttempts { get; set; } = 3;
 
-    /// <summary>Whether to restrict new members until verified.</summary>
     public bool RestrictUntilVerified { get; set; } = true;
 
-    /// <summary>Whether verification is enabled by default for new groups.</summary>
     public bool EnabledByDefault { get; set; } = true;
 }
 

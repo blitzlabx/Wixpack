@@ -1,8 +1,5 @@
 namespace Wixpack.Core.Models;
 
-/// <summary>
-/// Lightweight result type for service boundaries without throwing for expected failures.
-/// </summary>
 public readonly struct Result
 {
     public bool Success { get; }

@@ -1,9 +1,5 @@
 namespace Wixpack.Core.Branding;
 
-/// <summary>
-/// Official branding constants for Wixpack by Blitz.
-/// Do not hardcode personal links or fake logo/donation URLs elsewhere.
-/// </summary>
 public static class WixpackBranding
 {
     public const string ProductName = "Wixpack";

@@ -10,9 +10,6 @@ using Wixpack.Telegram.Keyboards;
 
 namespace Wixpack.Telegram.Floket;
 
-/// <summary>
-/// Handles group member joins and Floket verification callbacks.
-/// </summary>
 public sealed class FloketGroupHandler
 {
     private readonly FloketVerificationService _floket;
@@ -191,31 +188,38 @@ public sealed class FloketGroupHandler
 
     private static InlineKeyboardMarkup BuildChallengeKeyboard(VerificationSession session)
     {
-        // Build 3 options: correct + 2 distractors as buttons (green not revealed)
-        if (!int.TryParse(session.CorrectAnswer, out var correct))
-        {
-            // Fallback: single text-style not possible; use numeric near answers
-            correct = 0;
-        }
-
         var options = new HashSet<string> { session.CorrectAnswer };
         var rng = Random.Shared;
-        while (options.Count < 3)
+
+        if (int.TryParse(session.CorrectAnswer, out var correct))
         {
-            var delta = rng.Next(1, 6) * (rng.Next(0, 2) == 0 ? 1 : -1);
-            var wrong = (correct + delta).ToString();
-            if (wrong != session.CorrectAnswer && int.Parse(wrong) > 0)
-                options.Add(wrong);
+            while (options.Count < 4)
+            {
+                var delta = rng.Next(1, 7) * (rng.Next(0, 2) == 0 ? 1 : -1);
+                var wrong = (correct + delta).ToString();
+                if (wrong != session.CorrectAnswer && int.TryParse(wrong, out var w) && w > 0)
+                    options.Add(wrong);
+            }
+        }
+        else
+        {
+            var emojiPool = new[] { "🍎", "🍌", "🍇", "🍊", "🍓", "🥝", "🍑", "🍒", "🍉", "🍍" };
+            foreach (var e in emojiPool.OrderBy(_ => rng.Next()))
+            {
+                if (options.Count >= 4) break;
+                if (e != session.CorrectAnswer) options.Add(e);
+            }
         }
 
         var shuffled = options.OrderBy(_ => rng.Next()).ToList();
         var row = shuffled.Select(a =>
-            ButtonStyles.Callback(a, $"floket:ans:{session.SessionId}:{a}")).ToArray();
+            ButtonStyles.Callback(a, $"floket:ans:{session.SessionId}:{a}",
+                a == session.CorrectAnswer ? null : null)).ToArray();
 
         return new InlineKeyboardMarkup([
             row,
             [
-                ButtonStyles.Callback("« Powered by Floket", $"floket:info:{session.SessionId}")
+                ButtonStyles.Callback("« Floket", $"floket:info:{session.SessionId}")
             ]
         ]);
     }

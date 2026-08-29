@@ -1,23 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Wixpack.Core\Wixpack.Core.csproj" />
     <ProjectReference Include="..\Wixpack.Floket\Wixpack.Floket.csproj" />
     <ProjectReference Include="..\Wixpack.Games\Wixpack.Games.csproj" />
     <ProjectReference Include="..\Wixpack.Downloader\Wixpack.Downloader.csproj" />
+    <ProjectReference Include="..\Wixpack.DevTools\Wixpack.DevTools.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.11" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.11" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.11" />
     <PackageReference Include="Telegram.Bot" Version="22.10.2.1" />
   </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
 </Project>

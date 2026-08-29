@@ -20,8 +20,9 @@ using Wixpack.Floket.DependencyInjection;
 using Wixpack.Games.DependencyInjection;
 using Wixpack.Telegram.DependencyInjection;
 
-// Render free tier often hits the inotify watch limit (128). Disable config file watching.
 Environment.SetEnvironmentVariable("DOTNET_HOSTBUILDER_RELOADCONFIGONCHANGE", "false");
+
+EnvFileLoader.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,13 @@ builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 var settings = new WixpackSettings();
 builder.Configuration.Bind(settings);
+
+// Bot token only from environment / .env — never rely on settings.json
+var envToken = Environment.GetEnvironmentVariable("WIXPACK_Telegram__BotToken");
+if (!string.IsNullOrWhiteSpace(envToken))
+    settings.Telegram.BotToken = envToken.Trim();
+else
+    settings.Telegram.BotToken = "";
 
 Log.Logger = WixpackLog.CreateLogger(settings.Logging, WixpackBranding.ProductName);
 builder.Host.UseSerilog();
@@ -212,10 +220,67 @@ api.MapPost("/tools/qr", async (HttpRequest req, DevToolsService tools) =>
     return Results.File(png, "image/png");
 });
 
+
+api.MapGet("/tools/uuid/bulk", (DevToolsService tools, int? count) =>
+    Results.Ok(new { uuids = tools.BulkUuid(count ?? 5) }));
+
+api.MapGet("/tools/password", (DevToolsService tools, int? length) =>
+    Results.Ok(new { password = tools.GeneratePassword(length ?? 16) }));
+
+api.MapPost("/tools/hash/all", async (HttpRequest req, DevToolsService tools) =>
+{
+    var body = await new StreamReader(req.Body).ReadToEndAsync();
+    using var doc = JsonDocument.Parse(string.IsNullOrWhiteSpace(body) ? "{}" : body);
+    var text = doc.RootElement.TryGetProperty("text", out var te) ? te.GetString() ?? body : body;
+    return Results.Ok(tools.HashAll(text.Trim()));
+});
+
+api.MapPost("/tools/slug", async (HttpRequest req, DevToolsService tools) =>
+{
+    var body = await new StreamReader(req.Body).ReadToEndAsync();
+    return Results.Ok(new { slug = tools.Slugify(body) });
+});
+
+api.MapPost("/tools/case", async (HttpRequest req, DevToolsService tools) =>
+{
+    using var doc = await JsonDocument.ParseAsync(req.Body);
+    var text = doc.RootElement.GetProperty("text").GetString() ?? "";
+    var mode = doc.RootElement.TryGetProperty("mode", out var m) ? m.GetString() ?? "lower" : "lower";
+    return Results.Ok(new { result = tools.ToCase(text, mode) });
+});
+
+api.MapPost("/tools/color", async (HttpRequest req, DevToolsService tools) =>
+{
+    var body = (await new StreamReader(req.Body).ReadToEndAsync()).Trim().Trim('"');
+    var r = tools.ColorConvert(body);
+    return r.Success ? Results.Ok(r.Value) : Results.BadRequest(new { error = r.Error });
+});
+
+api.MapGet("/tools/lorem", (DevToolsService tools, int? words) =>
+    Results.Ok(new { text = tools.Lorem(words ?? 30) }));
+
+api.MapPost("/tools/html/encode", async (HttpRequest req, DevToolsService tools) =>
+{
+    var body = await new StreamReader(req.Body).ReadToEndAsync();
+    return Results.Ok(new { result = tools.HtmlEncode(body) });
+});
+
+api.MapPost("/tools/html/decode", async (HttpRequest req, DevToolsService tools) =>
+{
+    var body = await new StreamReader(req.Body).ReadToEndAsync();
+    return Results.Ok(new { result = tools.HtmlDecode(body) });
+});
+
+api.MapPost("/tools/string/stats", async (HttpRequest req, DevToolsService tools) =>
+{
+    var body = await new StreamReader(req.Body).ReadToEndAsync();
+    return Results.Ok(tools.StringStats(body));
+});
+
 api.MapGet("/experimental/coin-flip", (CoinFlipFeature flip) =>
     Results.Ok(new { feature = flip.Name, result = flip.Flip(), note = "experimental — isolated from core" }));
 
-Log.Information("{Banner}", WixpackBranding.VersionBanner("0.9.0"));
+Log.Information("{Banner}", WixpackBranding.VersionBanner("1.1.0"));
 Log.Information("Listening on port {Port}. Health: /health  API: /api", port);
 
 await app.RunAsync();

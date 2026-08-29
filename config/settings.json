@@ -1,8 +1,8 @@
 {
-  "LogoUrl": "https://u.pone.rs/wpkliixf.jpg",
-  "DonationUrl": "https://flutterwave.com/donate/knjcdfjgzwyt",
+  "LogoUrl": "",
+  "DonationUrl": "",
   "Telegram": {
-    "BotToken": "8715377037:AAEx1miY_gYBre_mQ_VNP_9d7OyZSYG1Bh8",
+    "BotToken": "",
     "EnablePolling": true,
     "AdminUserIds": [],
     "DefaultLanguage": "en"
@@ -20,7 +20,7 @@
   },
   "Api": {
     "Host": "http://localhost:5080",
-    "RequireApiKey": true,
+    "RequireApiKey": false,
     "ApiKey": ""
   },
   "Logging": {

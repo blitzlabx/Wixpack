@@ -2,9 +2,6 @@ using Wixpack.Floket.Models;
 
 namespace Wixpack.Floket.Telegram;
 
-/// <summary>
-/// Floket-branded verification UI copy. Not a generic captcha — Floket is the security component.
-/// </summary>
 public static class FloketTelegramMessages
 {
     public const string PoweredBy = "🔐 Powered by Floket";

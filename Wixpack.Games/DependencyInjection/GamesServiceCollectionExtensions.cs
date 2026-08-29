@@ -10,6 +10,8 @@ public static class GamesServiceCollectionExtensions
     {
         services.AddSingleton<IGameSessionStore, InMemoryGameSessionStore>();
         services.AddSingleton<IGame, RpsGame>();
+        services.AddSingleton<IGame, NumberGuessGame>();
+        services.AddSingleton<IGame, DiceGame>();
         services.AddSingleton<GameRegistry>();
         return services;
     }

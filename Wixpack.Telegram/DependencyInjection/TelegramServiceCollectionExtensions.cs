@@ -18,9 +18,10 @@ public static class TelegramServiceCollectionExtensions
         var settings = new WixpackSettings();
         configuration.Bind(settings);
 
-        var token = string.IsNullOrWhiteSpace(settings.Telegram.BotToken)
-            ? "0000000000:PLACEHOLDER_TOKEN_REPLACE_IN_SETTINGS"
-            : settings.Telegram.BotToken;
+        var envToken = Environment.GetEnvironmentVariable("WIXPACK_Telegram__BotToken");
+        var token = !string.IsNullOrWhiteSpace(envToken)
+            ? envToken.Trim()
+            : "0000000000:PLACEHOLDER_TOKEN_REPLACE_IN_ENV";
 
         services.AddSingleton<ITelegramBotClient>(_ => new TelegramBotClient(token));
 

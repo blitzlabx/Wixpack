@@ -9,9 +9,6 @@ public enum VerificationStatus
     Blocked
 }
 
-/// <summary>
-/// One-time Floket verification session for a user in a protected group.
-/// </summary>
 public sealed class VerificationSession
 {
     public required string SessionId { get; init; }

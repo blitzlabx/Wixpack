@@ -1,0 +1,7 @@
+**/bin
+**/obj
+**/.git
+.env
+logs
+downloads
+*.md

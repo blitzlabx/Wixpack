@@ -15,10 +15,6 @@ public interface IFloketVerificationStore
     Task CleanupExpiredAsync(CancellationToken ct = default);
 }
 
-/// <summary>
-/// In-memory store suitable for single-instance deploy (e.g. Render free).
-/// Replace with Redis/DB for multi-instance production.
-/// </summary>
 public sealed class InMemoryFloketStore : IFloketVerificationStore
 {
     private readonly Dictionary<string, VerificationSession> _sessions = new();

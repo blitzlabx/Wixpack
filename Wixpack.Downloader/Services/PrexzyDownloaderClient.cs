@@ -5,10 +5,6 @@ using Wixpack.Core.Models;
 
 namespace Wixpack.Downloader.Services;
 
-/// <summary>
-/// Client for Prexzy free downloader APIs (https://docs.prexzyapis.com / https://prexzyapis.com).
-/// No API key required. Used as the primary media resolve path for Render-friendly deploys.
-/// </summary>
 public sealed class PrexzyDownloaderClient
 {
     public const string BaseUrl = "https://prexzyapis.com";

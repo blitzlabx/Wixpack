@@ -7,9 +7,6 @@ using Wixpack.Games.Core;
 
 namespace Wixpack.Games.Games;
 
-/// <summary>
-/// Rock-Paper-Scissors multiplayer via inline buttons in groups.
-/// </summary>
 public sealed class RpsGame : IGame
 {
     private readonly IGameSessionStore _store;
